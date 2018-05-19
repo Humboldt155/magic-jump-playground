@@ -1,28 +1,41 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand ">
+        <h1 class="subtitle has-text-grey-light">Magic Jump playground</h1>
+      </div>
+    </nav>
+      <div class="box">
+        <b-tabs type="is-boxed">
+            <b-tab-item label="Аналоги" icon="google-photos">
+                <analogs></analogs>
+            </b-tab-item>
+            <b-tab-item label="С этим товаром покупают" icon="library-music">
+                <complementary></complementary>
+            </b-tab-item>
+            <b-tab-item label="Предложение на следующую покупку" icon="video">
+                <forecast></forecast>
+            </b-tab-item>
+        </b-tabs>
+      </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import analogs from './components/analogs.vue'
+import complementary from './components/complementary.vue'
+import forecast from './components/forecast.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+      analogs,
+      complementary,
+      forecast
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
