@@ -44,11 +44,11 @@
 
 <!--------------------------Блок ЗАГОЛОВКОВ-------------------------------->
         <div class="columns">
-            <div class="column is-one-third"> <!--Товар-->
+            <div class="column is-one-quarter"> <!--Товар-->
                 <h1 class="title has-text-grey">Товар</h1>
-            </div>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div class="column">
-                <p class="title has-text-grey">С этим товаром покупают&nbsp;&nbsp;&nbsp;&nbsp;
+                <p class="has-text-grey is-size-4">С этим товаром покупают&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Аналоги комплементарных товаров</p>
             </div>
         </div>
@@ -56,9 +56,12 @@
         <div class="columns">
 
 <!--------------------------Карточка товара-------------------------------->
-            <div class="column is-one-third"> <!--Товар-->
+            <div class="column is-one-quarter"> <!--Товар-->
                 <h1 class="subtitle has-text-primary">Карточка товара</h1>
                 <div class="box">
+                    <figure class="image is-128x128">
+                      <img :src="img_path">
+                    </figure>
                     <h1 class="title ">
                         {{ complements.product_name }}
                     </h1><br>
@@ -69,7 +72,6 @@
                 </div>
                 <br>
                 <br>
-
 <!--------------------------Блок АНАЛОГОВ-------------------------------->
 
                 <h1 class="title has-text-grey">Аналоги: </h1><br>
@@ -85,26 +87,24 @@
                     <tr v-for="prod in analogs.models[0]['products']">
                         <td>{{ prod.product }}</td>
                         <td>{{ prod.product_name }}</td>
-                        <td>{{ prod.probability }}</td>
+                        <td>{{ Math.round(prod.probability * 100) / 100 }}</td>
                     </tr>
                   </tbody>
                 </table>
-            </div>
+            </div>&nbsp;&nbsp;&nbsp;
 
 <!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->
             <div class="column">
                 <div v-for="model in models.slice(0, 5)" class="container">
                     <div>
-                        <h1 class="subtitle has-text-primary">{{ model.model_name }}</h1>
+
                         <div class="columns">
                             <div class="column is-one-quarter">
                                 <div class="box">
-                                    <strong>{{ model.products[0].product }}</strong>&nbsp;
-                                    <button v-if="model.products[0].is_stm" class="button is-primary is-primary is-small">
-                                        СТМ
-                                    </button>
-                                    <p class="subtitle">{{ model.products[0].product_name }}</p>
-                                    <p class="subtitle"><strong>Вероятность, %:</strong> {{ model.products[0].probability }}</p><br>
+
+                                    <p class="is-size-4 has-text-primary">{{ model.products[0].product_name }}</p>
+                                    <p class="subtitle"><strong>Вероятность:</strong>&nbsp;&nbsp;{{ Math.round(model.products[0].probability * 1000) / 1000 }}  %</p>
+                                    <strong>Арт: {{ model.products[0].product }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button class="button is-danger is-outlined is-small"
                                             @click="add_to_basket({
                                                 product: model.products[0].product,
@@ -112,16 +112,21 @@
                                             })">
                                         в корзину
                                     </button>
-                                </div>
-                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <div v-for="product in model.products.slice(1, 7)" class="column is-one-fifth">
-                                <div class="box">
-                                    <strong>{{ product.product }}</strong>&nbsp;
-                                    <button v-if="model.products[0].is_stm === 1" class="button is-primary is-small">
+                                    <button v-if="model.products[0].is_stm" class="button is-success is-small">
                                         СТМ
                                     </button>
-                                    <p class="subtitle has-text-primary">{{ product.product_name }}</p>
-                                    <p class="subtitle"><strong>Вероятность, %: </strong>{{ product.probability }}</p><br>
+                                </div>
+                            </div>&nbsp;
+                            <div class="column is-one-fifth">
+                                <p class="has-text-grey is-size-5"><br>{{ model.model_name }}-----></p>
+                            </div>
+<!--------------------------Блок АНАЛОГОВ КОМПЛЕМЕНТОВ-------------------------------->
+                            <div v-for="product in model.products.slice(1, 7)" class="column is-one-quarter">
+                                <div class="box">
+
+                                    <p class="is-size-5 has-text-grey">{{ product.product_name }}</p>
+                                    <p class="is-size-5 has-text-grey"><strong>Вероятность: </strong>{{ Math.round(product.probability * 1000) / 1000 }}&nbsp;%</p>
+                                    <strong>Арт: {{ product.product }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button class="button is-danger is-outlined is-small"
                                             @click="add_to_basket({
                                                 product: product.product,
@@ -129,11 +134,13 @@
                                             })">
                                         в корзину
                                     </button>
+                                    <button v-if="model.products[0].is_stm === 1" class="button is-success is-small">
+                                        СТМ
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <br>
                     <br>
                 </div>
             </div>
@@ -182,6 +189,9 @@
         computed: {
             models () {
                 return this.complements.models
+            },
+            img_path () {
+                return 'https://s.leroymerlin.ru/upload/catalog/img/5/b/'.concat(this.selected, '/800x800/', this.selected,'.jpg')
             }
         }
     }
