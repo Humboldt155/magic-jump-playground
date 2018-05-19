@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div class="section">
       <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand ">
         <h1 class="subtitle has-text-grey-light">Magic Jump playground</h1>
       </div>
     </nav>
-      <div class="box">
+      <div>
         <b-tabs type="is-boxed">
             <b-tab-item label="Аналоги" icon="google-photos">
                 <analogs></analogs>
