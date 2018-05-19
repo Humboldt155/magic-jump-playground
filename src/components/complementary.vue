@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h1 class="title">С этим товаром покупают</h1>
+        <h1 class="title">Аналоги и Up-sale</h1>
         <h2 class="subtitle"></h2>
         <div class="columns"> <!--Блок корзины-->
           <div class="column">
@@ -14,7 +14,6 @@
                 <p class="control">
                     <button class="button is-primary" @click="getComplementary(selected)">применить</button>
                 </p>
-                  {{ basket_products }}
               </b-field>
           </div>
 
@@ -56,10 +55,10 @@
             <div class="column is-one-quarter"> <!--Товар-->
                 <div class="box">
                     <h1 class="title ">
-                        {{ main_name }}
+                        {{ response.product_name }}
                     </h1><br>
                     <h2 class="subtitle has-text-grey">
-                        {{ main_code }}
+                        {{ response.product }}
                     </h2>
                     <br><br><br><br><br><br><br><br>
                 </div>
@@ -85,7 +84,7 @@
                                         в корзину
                                     </button>
                                 </div>
-                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div v-for="product in model.products.slice(1, 7)" class="column is-one-fifth">
                                 <div class="box">
                                     <strong>{{ product.product }}</strong>&nbsp;
@@ -167,7 +166,7 @@
                 basket_list: '',
                 main_code: '123456789',
                 main_name: 'Наименование основного товара',
-                response: {"models": []}
+                response: {"models": [], "product": '',  "product_name": ''}
             }
         },
         methods: {

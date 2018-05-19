@@ -7,9 +7,6 @@
     </nav>
       <div>
         <b-tabs type="is-boxed">
-            <b-tab-item label="Аналоги" icon="google-photos">
-                <analogs></analogs>
-            </b-tab-item>
             <b-tab-item label="С этим товаром покупают" icon="library-music">
                 <complementary></complementary>
             </b-tab-item>
@@ -22,14 +19,12 @@
 </template>
 
 <script>
-import analogs from './components/analogs.vue'
 import complementary from './components/complementary.vue'
 import forecast from './components/forecast.vue'
 
 export default {
   name: 'app',
   components: {
-      analogs,
       complementary,
       forecast
   }
