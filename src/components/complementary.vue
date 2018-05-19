@@ -17,7 +17,7 @@
               </b-field>
           </div>
 
-          <!--Корзина-->
+<!--------------------------КОРЗИНА-------------------------------------->
           <div class="column is-two-thirds">
               <div class="box">
                   <article class="media">
@@ -42,31 +42,60 @@
           </div>
         </div>
 
-        <div class="columns"> <!--Блок карточки и главных комплементов-->
-            <div class="column is-one-quarter"> <!--Товар-->
-                <strong>Находимся в карточке этого товара</strong>
+<!--------------------------Блок ЗАГОЛОВКОВ-------------------------------->
+        <div class="columns">
+            <div class="column is-one-third"> <!--Товар-->
+                <h1 class="title has-text-grey">Товар</h1>
             </div>
-            <div class="column is-one-fifth">С этим товаром покупают (видимый блок)</div>
-            <div class="column">Аналоги комплементарных товаров</div>
+            <div class="column">
+                <p class="title has-text-grey">С этим товаром покупают&nbsp;&nbsp;&nbsp;&nbsp;
+                Аналоги комплементарных товаров</p>
+            </div>
         </div>
         <br>
-        <br>
-        <div class="columns"> <!--Блок карточки и главных комплементов-->
-            <div class="column is-one-quarter"> <!--Товар-->
+        <div class="columns">
+
+<!--------------------------Карточка товара-------------------------------->
+            <div class="column is-one-third"> <!--Товар-->
+                <h1 class="subtitle has-text-primary">Карточка товара</h1>
                 <div class="box">
                     <h1 class="title ">
-                        {{ response.product_name }}
+                        {{ complements.product_name }}
                     </h1><br>
                     <h2 class="subtitle has-text-grey">
-                        {{ response.product }}
+                        {{ complements.product }}
                     </h2>
                     <br><br><br><br><br><br><br><br>
                 </div>
+                <br>
+                <br>
+
+<!--------------------------Блок АНАЛОГОВ-------------------------------->
+
+                <h1 class="title has-text-grey">Аналоги: </h1><br>
+                <table class="table is-striped">
+                  <thead>
+                    <tr>
+                      <th><abbr title="Position">Код</abbr></th>
+                      <th><abbr title="Played">Наименование товара</abbr></th>
+                      <th><abbr title="Won">Схожесть, %</abbr></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="prod in analogs.models[0]['products']">
+                        <td>{{ prod.product }}</td>
+                        <td>{{ prod.product_name }}</td>
+                        <td>{{ prod.probability }}</td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
+
+<!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->
             <div class="column">
                 <div v-for="model in models.slice(0, 5)" class="container">
                     <div>
-                        <h1 class="subtitle"><h2 class="title">{{ model.model_name }}</h2></h1>
+                        <h1 class="subtitle has-text-primary">{{ model.model_name }}</h1>
                         <div class="columns">
                             <div class="column is-one-quarter">
                                 <div class="box">
@@ -88,10 +117,10 @@
                             <div v-for="product in model.products.slice(1, 7)" class="column is-one-fifth">
                                 <div class="box">
                                     <strong>{{ product.product }}</strong>&nbsp;
-                                    <button v-if="model.products[0].is_stm === 1" class="button is-primary is-primary is-small">
+                                    <button v-if="model.products[0].is_stm === 1" class="button is-primary is-small">
                                         СТМ
                                     </button>
-                                    <p class="subtitle">{{ product.product_name }}</p>
+                                    <p class="subtitle has-text-primary">{{ product.product_name }}</p>
                                     <p class="subtitle"><strong>Вероятность, %: </strong>{{ product.probability }}</p><br>
                                     <button class="button is-danger is-outlined is-small"
                                             @click="add_to_basket({
@@ -111,46 +140,6 @@
         </div>
         <br>
         <hr>
-        <div class="section">
-            <div class="columns"> <!--Блок карточки и главных комплементов-->
-            <div class="column is-one-quarter"> <!--Товар-->
-
-            </div>
-            <div class="column is-one-fifth">
-                <div v-for="model in models.slice(5, -1)" class="container">
-                    <div>
-                        <h1 class="subtitle"><h2 class="title">{{ model.model_name }}</h2></h1>
-                        <div class="columns">
-                            <div class="column is-one-fifth">
-                                <div class="box">
-                                    <strong>{{ model.products[0].product }}</strong>&nbsp;
-                                    <button v-if="model.products[0].is_stm" class="button is-primary is-primary is-small">
-                                        СТМ
-                                    </button>
-                                    <p class="subtitle">{{ model.products[0].product_name }}</p>
-                                    <p>Вероятность, %: {{ Math.round(model.products[0].probability, -3) }}</p><br>
-                                    <button class="button is-danger is-outlined is-small">в корзину</button>
-                                </div>
-                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <div v-for="product in model.products.slice(1, 7)" class="column is-one-fifth">
-                                <div class="box">
-                                    <strong>{{ product.product }}</strong>&nbsp;
-                                    <button v-if="model.products[0].is_stm === 1" class="button is-primary is-primary is-small">
-                                        СТМ
-                                    </button>
-                                    <p class="subtitle">{{ product.product_name }}</p>
-                                    <p>Вероятность, %: {{ Math.round(product.probability, -3) }}</p><br>
-                                    <button class="button is-danger is-outlined is-small">в корзину</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                </div>
-            </div>
-        </div>
-        </div>
     </section>
 </template>
 
@@ -166,13 +155,17 @@
                 basket_list: '',
                 main_code: '123456789',
                 main_name: 'Наименование основного товара',
-                response: {"models": [], "product": '',  "product_name": ''}
+                complements: {"models": [], "product": '',  "product_name": ''},
+                analogs: {"models": [{products: ['']}]}
             }
         },
         methods: {
             getComplementary (products) {
                 axios.get('http://127.0.0.1:5000/complementary/'.concat(products, this.basket_list, '/')).then(response => {
-                    this.response = response.data
+                    this.complements = response.data
+                })
+                axios.get('http://127.0.0.1:5000/analogs/'.concat(this.selected, '/')).then(response => {
+                    this.analogs = response.data
                 })
             },
             add_to_basket (product_object) {
@@ -188,7 +181,7 @@
         },
         computed: {
             models () {
-                return this.response.models
+                return this.complements.models
             }
         }
     }
