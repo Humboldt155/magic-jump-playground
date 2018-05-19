@@ -74,7 +74,7 @@
                 <br>
 <!--------------------------Блок АНАЛОГОВ-------------------------------->
 
-                <h1 class="title has-text-grey">Аналоги: </h1><br>
+                <h1 class="title has-text-grey is-size-3">Аналоги: </h1><br>
                 <table class="table is-striped">
                   <thead>
                     <tr>
@@ -102,9 +102,9 @@
                             <div class="column is-one-quarter">
                                 <div class="box">
 
-                                    <p class="is-size-4 has-text-primary">{{ model.products[0].product_name }}</p>
-                                    <p class="subtitle"><strong>Вероятность:</strong>&nbsp;&nbsp;{{ Math.round(model.products[0].probability * 1000) / 1000 }}  %</p>
-                                    <strong>Арт: {{ model.products[0].product }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <p class="is-size-4 has-text-dark">{{ model.products[0].product_name }}</p><br>
+                                    <p class="is-size-5 has-text-grey-light">Вероятность:&nbsp;&nbsp;<strong>{{ Math.round(model.products[0].probability * 1000000) / 1000000 }}  %</strong></p>
+                                    <br><strong>Арт: {{ model.products[0].product }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button class="button is-danger is-outlined is-small"
                                             @click="add_to_basket({
                                                 product: model.products[0].product,
