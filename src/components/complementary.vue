@@ -18,37 +18,30 @@
           </div>
 
 <!--------------------------КОРЗИНА-------------------------------------->
-          <div class="column is-two-thirds">
+          <p class="image is-128x128">
+                      <img src="../assets/basket.png">
+                  </p>
+            <div class="column is-two-thirds">
               <div class="box">
-                  <article class="media">
-                      <figure class="media-left">
-                          <p class="image is-128x128">
-                              <img src="../assets/basket.png">
-                           </p>
-                      </figure>
-                      <div class="media-content"><br>
-                          <div class="columns">
-                              <div v-for="basket_product in basket_products" class="column is-one-quarter">
-                                  <div class="section">
-                                  <div class="box">
-                                      <p>{{ basket_product.product }}</p><br>
-                                      <p><strong>{{ basket_product.product_name }}</strong></p><br>
-                                  </div></div>
-                              </div>
+                  <div class="columns">
+                      <div v-for="basket_product in basket_products" class="column is-one-third">
+                          <div class="box">
+                              <p>{{ basket_product.product }}</p><br>
+                              <p><strong>{{ basket_product.product_name }}</strong></p><br>
                           </div>
                       </div>
-                  </article>
+                  </div>
               </div>
+            </div>
           </div>
-        </div>
 
 <!--------------------------Блок ЗАГОЛОВКОВ-------------------------------->
         <div class="columns">
             <div class="column is-one-quarter"> <!--Товар-->
-                <h1 class="title has-text-grey">Товар</h1>
+                <h1 class="subtitle has-text-grey">Товар</h1>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div class="column">
-                <p class="has-text-grey is-size-4">С этим товаром покупают&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p class="has-text-grey is-size-5">С этим товаром покупают&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Аналоги комплементарных товаров</p>
             </div>
         </div>
@@ -56,25 +49,23 @@
         <div class="columns">
 
 <!--------------------------Карточка товара-------------------------------->
-            <div class="column is-one-quarter"> <!--Товар-->
+            <div class="column is-one-third"> <!--Товар-->
                 <h1 class="subtitle has-text-primary">Карточка товара</h1>
                 <div class="box">
                     <figure class="image is-128x128">
                       <img :src="img_path">
                     </figure>
-                    <h1 class="title ">
+                    <h1 class="is-size-4">
                         {{ complements.product_name }}
                     </h1><br>
-                    <h2 class="subtitle has-text-grey">
+                    <h2 class="is-size-5 has-text-grey">
                         {{ complements.product }}
                     </h2>
-                    <br><br><br><br><br><br><br><br>
+                    <br><br>
                 </div>
-                <br>
-                <br>
 <!--------------------------Блок АНАЛОГОВ-------------------------------->
 
-                <h1 class="title has-text-grey is-size-3">Аналоги: </h1><br>
+                <h1 class="title has-text-grey is-size-4">Аналоги: </h1>
                 <table class="table is-striped">
                   <thead>
                     <tr>
@@ -99,41 +90,45 @@
                     <div>
 
                         <div class="columns">
-                            <div class="column is-one-quarter">
+                            <div class="column is-one-fifth">
                                 <div class="box">
 
-                                    <p class="is-size-4 has-text-dark">{{ model.products[0].product_name }}</p><br>
-                                    <p class="is-size-5 has-text-grey-light">Вероятность:&nbsp;&nbsp;<strong>{{ Math.round(model.products[0].probability * 1000000) / 1000000 }}  %</strong></p>
-                                    <br><strong>Арт: {{ model.products[0].product }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button class="button is-danger is-outlined is-small"
-                                            @click="add_to_basket({
-                                                product: model.products[0].product,
-                                                product_name: model.products[0].product_name,
-                                            })">
-                                        в корзину
-                                    </button>
+                                    <p class="is-size-6 has-text-dark">{{ model.products[0].product_name }}</p><br>
+                                    <p class="is-size-6 has-text-grey-light">Вероятность:&nbsp;&nbsp;<strong>{{ Math.round(model.products[0].probability * 1000000) / 1000000 }}  %</strong></p>
+                                    <div class="is-size-6 has-text-grey-light">Арт: {{ model.products[0].product }}
+                                        <button class="button is-danger is-outlined is-small"
+                                                @click="add_to_basket({
+                                                    product: model.products[0].product,
+                                                    product_name: model.products[0].product_name,
+                                                })">
+                                            в корзину
+                                        </button>
+                                    </div>
+
                                     <button v-if="model.products[0].is_stm" class="button is-success is-small">
                                         СТМ
                                     </button>
                                 </div>
                             </div>&nbsp;
                             <div class="column is-one-fifth">
-                                <p class="has-text-grey is-size-5"><br>{{ model.model_name }}-----></p>
+                                <p class="has-text-grey is-size-6"><br>{{ model.model_name }}-----></p>
                             </div>
 <!--------------------------Блок АНАЛОГОВ КОМПЛЕМЕНТОВ-------------------------------->
-                            <div v-for="product in model.products.slice(1, 7)" class="column is-one-quarter">
+                            <div v-for="product in model.products.slice(1, 7)" class="column is-one-fifth">
                                 <div class="box">
 
-                                    <p class="is-size-5 has-text-grey">{{ product.product_name }}</p>
-                                    <p class="is-size-5 has-text-grey"><strong>Вероятность: </strong>{{ Math.round(product.probability * 1000) / 1000 }}&nbsp;%</p>
-                                    <strong>Арт: {{ product.product }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button class="button is-danger is-outlined is-small"
-                                            @click="add_to_basket({
-                                                product: product.product,
-                                                product_name: model.products[0].product_name,
-                                            })">
-                                        в корзину
-                                    </button>
+                                    <p class="is-size-6 has-text-grey">{{ product.product_name }}</p>
+                                    <p class="is-size-7 has-text-grey">Вероятность: <strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></p>
+                                    <div class="is-size-7 has-text-grey">
+                                        Арт: {{ product.product }}
+                                        <button class="button is-danger is-outlined is-small"
+                                                @click="add_to_basket({
+                                                    product: product.product,
+                                                    product_name: model.products[0].product_name,
+                                                })">
+                                            в корзину
+                                        </button>
+                                    </div>
                                     <button v-if="model.products[0].is_stm === 1" class="button is-success is-small">
                                         СТМ
                                     </button>
