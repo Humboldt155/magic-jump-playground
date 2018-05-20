@@ -1,48 +1,36 @@
 <template>
     <section>
-        <h1 class="title">Аналоги и Up-sale</h1>
         <h2 class="subtitle"></h2>
         <div class="columns"> <!--Блок корзины-->
           <div class="column">
-            <button class="button is-primary is-outlined" @click="clearBasket">Очистить корзину</button>
-              <br>
-              <br>
-              <br>
               <b-field>
                 <b-input placeholder="артикул" v-model="selected">
                 </b-input>
                 <p class="control">
                     <button class="button is-primary" @click="getComplementary(selected)">применить</button>
-                </p>
+                </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="button is-primary is-outlined" @click="clearBasket">Очистить корзину</button>
               </b-field>
           </div>
-
-<!--------------------------КОРЗИНА-------------------------------------->
-          <p class="image is-128x128">
-                      <img src="../assets/basket.png">
-                  </p>
-            <div class="column is-two-thirds">
-              <div class="box">
-                  <div class="columns">
-                      <div v-for="basket_product in basket_products" class="column is-one-third">
-                          <div class="box">
-                              <p class="is-size-6">{{ basket_product.product }}</p><br>
-                              <p class="is-size-6">{{ basket_product.product_name }}</p><br>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
           </div>
 
 <!--------------------------Блок ЗАГОЛОВКОВ-------------------------------->
         <div class="columns">
-            <div class="column is-one-quarter"> <!--Товар-->
+            <div class="column is-one-third"> <!--Товар-->
                 <h1 class="subtitle has-text-grey">Товар</h1>
-            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
             <div class="column">
-                <p class="has-text-grey is-size-5">С этим товаром покупают&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Аналоги комплементарных товаров</p>
+                <div class="columns">
+                    <div class="column is-one-fifth">
+                        <p class="has-text-primary is-size-5">С этим товаром покупают</p>
+                    </div>
+                    <div class="column is-one-fifth">
+                        <p class="has-text-grey is-size-5">Товарная группа</p>
+                    </div>
+                    <div class="column">
+                        <p class="has-text-grey is-size-5">Аналоги комплиментарных товаров</p>
+                    </div>
+                </div>
             </div>
         </div>
         <br>
@@ -50,11 +38,8 @@
 
 <!--------------------------Карточка товара-------------------------------->
             <div class="column is-one-third"> <!--Товар-->
-                <h1 class="subtitle has-text-primary">Карточка товара</h1>
                 <div class="box">
-                    <figure class="image is-128x128">
-                      <img :src="img_path">
-                    </figure>
+                    <h1 class="title has-text-primary is-size-4">Карточка товара: </h1>
                     <h1 class="is-size-4">
                         {{ complements.product_name }}
                     </h1><br>
@@ -62,26 +47,48 @@
                         {{ complements.product }}
                     </h2>
                     <br><br>
+                    <br><br>
                 </div>
 <!--------------------------Блок АНАЛОГОВ-------------------------------->
+                <div class="box">
+                    <h1 class="title has-text-info is-size-4">Аналоги: </h1>
+                    <table class="table is-striped">
+                      <thead>
+                        <tr>
+                          <th><abbr title="Position">Код</abbr></th>
+                          <th><abbr title="Played">Наименование товара</abbr></th>
+                          <th><abbr title="Won">Схожесть, %</abbr></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="prod in analogs.models[0]['products']">
+                            <td>{{ prod.product }}</td>
+                            <td>{{ prod.product_name }}</td>
+                            <td>{{ Math.round(prod.probability * 100) / 100 }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
 
-                <h1 class="title has-text-grey is-size-4">Аналоги: </h1>
-                <table class="table is-striped">
-                  <thead>
-                    <tr>
-                      <th><abbr title="Position">Код</abbr></th>
-                      <th><abbr title="Played">Наименование товара</abbr></th>
-                      <th><abbr title="Won">Схожесть, %</abbr></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="prod in analogs.models[0]['products']">
-                        <td>{{ prod.product }}</td>
-                        <td>{{ prod.product_name }}</td>
-                        <td>{{ Math.round(prod.probability * 100) / 100 }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+<!--------------------------Блок КОРЗИНЫ-------------------------------->
+                <div class="box">
+                    <h1 class="title has-text-danger is-size-4">Корзина: </h1>
+                    <table class="table is-striped">
+                      <thead>
+                        <tr>
+                          <th><abbr title="Position">Код</abbr></th>
+                          <th><abbr title="Played">Наименование товара</abbr></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="basket_product in basket_products">
+                            <td>{{ basket_product.product }}</td>
+                            <td>{{ basket_product.product_name }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+
             </div>
 
 <!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->

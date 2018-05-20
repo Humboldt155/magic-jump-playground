@@ -2,31 +2,22 @@
   <div class="section">
       <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand ">
-        <h1 class="subtitle has-text-grey-light">Magic Jump playground</h1>
+        <h1 class="subtitle has-text-grey-light is-size-2">Magic Jump playground</h1>
       </div>
     </nav>
       <div>
-        <b-tabs type="is-boxed">
-            <b-tab-item label="С этим товаром покупают" icon="library-music">
-                <complementary></complementary>
-            </b-tab-item>
-            <b-tab-item label="Предложение на следующую покупку" icon="video">
-                <forecast></forecast>
-            </b-tab-item>
-        </b-tabs>
+        <complementary></complementary>
       </div>
   </div>
 </template>
 
 <script>
 import complementary from './components/complementary.vue'
-import forecast from './components/forecast.vue'
 
 export default {
   name: 'app',
   components: {
-      complementary,
-      forecast
+      complementary
   }
 }
 </script>
