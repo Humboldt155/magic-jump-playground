@@ -1,19 +1,28 @@
 <template>
     <section>
-        <h2 class="subtitle"></h2>
-        <div class="columns"> <!--Блок корзины-->
-          <div class="column">
-              <b-field>
-                <b-input placeholder="артикул" v-model="selected">
-                </b-input>
-                <p class="control">
-                    <button class="button is-primary" @click="getComplementary(selected)">применить</button>
-                </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="button is-primary is-outlined" @click="clearBasket">Очистить корзину</button>
-              </b-field>
+        <nav class="navbar is-transparent">
+          <div class="navbar-brand ">
+            <h1 class="subtitle has-text-grey-light is-size-3">Magic Jump <strong class="has-text-success">playground&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></h1>
           </div>
-          </div>
-
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                  <div class="navbar-item">
+                    <b-field>
+                        <b-input placeholder="артикул" v-model="selected">
+                        </b-input>
+                        <p class="control">
+                            <button class="button" @click="getComplementary(selected)">применить</button>
+                        </p>
+                      </b-field>
+                  </div>
+                  <div class="navbar-item">
+                    <button class="button is-outlined" @click="clearBasket">Очистить корзину</button>
+                  </div>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <br>
 <!--------------------------Блок ЗАГОЛОВКОВ-------------------------------->
         <div class="columns">
             <div class="column is-one-third"> <!--Товар-->
@@ -33,7 +42,6 @@
                 </div>
             </div>
         </div>
-        <br>
         <div class="columns">
 
 <!--------------------------Карточка товара-------------------------------->
@@ -88,7 +96,6 @@
                       </tbody>
                     </table>
                 </div>
-
             </div>
 
 <!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->
@@ -116,7 +123,7 @@
                                         СТМ
                                     </button>
                                 </div>
-                            </div>&nbsp;
+                            </div>
                             <div class="column is-one-fifth">
                                 <p class="has-text-grey is-size-6"><br>{{ model.model_name }}-----></p>
                             </div>
@@ -145,6 +152,9 @@
                     </div>
                     <br>
                 </div>
+                <div class="box">
+                    <h1 class="title has-text-success is-size-4">За чем клиент придет в следующий раз: </h1>
+                </div>
             </div>
         </div>
         <br>
@@ -159,7 +169,7 @@
         name: "complementary",
         data () {
             return {
-                selected: '18745334',
+                selected: '',
                 basket_products: [],
                 basket_list: '',
                 main_code: '123456789',
