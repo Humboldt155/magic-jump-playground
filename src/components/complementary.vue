@@ -78,7 +78,7 @@
                     </table>
                 </div>
 
-<!--------------------------Блок КОРЗИНЫ-------------------------------->
+<!--------------------------Блок КОРЗИНЫ------------------------------------------>
                 <div class="box">
                     <h1 class="title has-text-danger is-size-4">Корзина: </h1>
                     <table class="table is-striped">
@@ -92,6 +92,44 @@
                         <tr v-for="basket_product in basket_products">
                             <td>{{ basket_product.product }}</td>
                             <td>{{ basket_product.product_name }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                     <b-field>
+                        <b-input placeholder="артикул" v-model="add_to_basket_product">
+                        </b-input>
+                        <b-input placeholder="название" v-model="add_to_basket_product_name">
+                        </b-input>
+                        <p class="control">
+                            <button class="button" @click="add_to_basket_product_function(add_to_basket_product, add_to_basket_product_name)">в корзину</button>
+                        </p>
+                      </b-field>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+<!--------------------------Блок ВОЗМОЖНО, ВЫ ЗАБЫЛИ КУПИТЬ-------------------------------->
+                <div class="box">
+                    <h1 class="title has-text-warning is-size-4">Возможно, Клиенту еще понадобятся: </h1>
+                    <table class="table is-striped is-bordered">
+                      <thead>
+                      </thead>
+                      <tbody>
+                        <tr v-for="model in supplementary.models">
+                            <td v-for="product in model.products.slice(0, 2)">
+                                <p class="is-size-5 has-text-grey">{{ product.product_name }}</p><br>
+                                <p class="is-size-6 has-text-grey">Вероятность: <strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></p>
+                                <br>
+                                    <div class="is-size-7 has-text-grey">
+                                        Арт: {{ product.product }}
+                                    </div>
+                                    <button v-if="model.products[0].is_stm === 1" class="button is-success is-small">
+                                        СТМ
+                                    </button>
+                            </td>
+                            <br>
                         </tr>
                       </tbody>
                     </table>
@@ -169,13 +207,16 @@
         name: "complementary",
         data () {
             return {
-                selected: '',
+                selected: '18745342',
+                add_to_basket_product: '',
+                add_to_basket_product_name: '',
                 basket_products: [],
                 basket_list: '',
                 main_code: '123456789',
                 main_name: 'Наименование основного товара',
                 complements: {"models": [], "product": '',  "product_name": ''},
-                analogs: {"models": [{products: ['']}]}
+                analogs: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}]}]},
+                supplementary: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}, {product: '', product_name: ''}]}]},
             }
         },
         methods: {
@@ -185,6 +226,9 @@
                 })
                 axios.get('http://127.0.0.1:5000/analogs/'.concat(this.selected, '/')).then(response => {
                     this.analogs = response.data
+                })
+                axios.get('http://127.0.0.1:5000/supplementary/'.concat(products, '/')).then(response => {
+                    this.supplementary = response.data
                 })
             },
             add_to_basket (product_object) {
@@ -196,6 +240,12 @@
                 this.basket_list = ''
                 this.basket_products = []
                 this.getComplementary(this.selected)
+            },
+            add_to_basket_product_function (product, product_name) {
+                if ( this.basket_list === '' ) this.basket_list = ','.concat(product.toString())
+                else (this.basket_list = ','.concat(product.toString(), this.basket_list))
+                this.basket_products.push({product: product, product_name: product_name, probability: ''})
+                this.getComplementary(this.selected.concat(this.basket_list))
             }
         },
         computed: {
