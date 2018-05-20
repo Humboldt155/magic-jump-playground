@@ -26,8 +26,8 @@
                   <div class="columns">
                       <div v-for="basket_product in basket_products" class="column is-one-third">
                           <div class="box">
-                              <p>{{ basket_product.product }}</p><br>
-                              <p><strong>{{ basket_product.product_name }}</strong></p><br>
+                              <p class="is-size-6">{{ basket_product.product }}</p><br>
+                              <p class="is-size-6">{{ basket_product.product_name }}</p><br>
                           </div>
                       </div>
                   </div>
@@ -82,7 +82,7 @@
                     </tr>
                   </tbody>
                 </table>
-            </div>&nbsp;&nbsp;&nbsp;
+            </div>
 
 <!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->
             <div class="column">
