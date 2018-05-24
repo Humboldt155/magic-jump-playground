@@ -6,10 +6,12 @@
           </div>
         </nav>
       <b-tabs position="is-centered">
-          <b-tab-item label="Аналоги, комплименты">
+          <b-tab-item label="Аналоги, комплименты товара">
               <complementary></complementary>
           </b-tab-item>
-          <b-tab-item label="Проекты"></b-tab-item>
+          <b-tab-item label="Проекты товара">
+              <code_projects></code_projects>
+          </b-tab-item>
       </b-tabs>
 
   </div>
@@ -17,11 +19,13 @@
 
 <script>
 import complementary from './components/complementary.vue'
+import code_projects from './components/code_projects.vue'
 
 export default {
   name: 'app',
   components: {
-      complementary
+      complementary,
+      code_projects
   }
 }
 </script>
