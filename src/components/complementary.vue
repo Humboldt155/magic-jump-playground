@@ -1,9 +1,6 @@
 <template>
     <section>
         <nav class="navbar is-transparent">
-          <div class="navbar-brand ">
-            <h1 class="subtitle has-text-grey-light is-size-3">Magic Jump <strong class="has-text-success">playground&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></h1>
-          </div>
             <div class="navbar-menu">
                 <div class="navbar-start">
                   <div class="navbar-item">
@@ -112,7 +109,7 @@
                 <br>
 <!--------------------------Блок ВОЗМОЖНО, ВЫ ЗАБЫЛИ КУПИТЬ-------------------------------->
                 <div class="box">
-                    <h1 class="title has-text-warning is-size-4">Возможно, Клиенту еще понадобятся: </h1>
+                    <h1 class="title has-text-success is-size-4">Возможно, клиент забыл купить: </h1>
                     <table class="table is-striped is-bordered">
                       <thead>
                       </thead>
@@ -192,6 +189,7 @@
                 </div>
                 <div class="box">
                     <h1 class="title has-text-success is-size-4">За чем клиент придет в следующий раз: </h1>
+                    <!--{{ forecast }}-->
                 </div>
             </div>
         </div>
@@ -217,6 +215,7 @@
                 complements: {"models": [], "product": '',  "product_name": ''},
                 analogs: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}]}]},
                 supplementary: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}, {product: '', product_name: ''}]}]},
+                // forecast: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}, {product: '', product_name: ''}]}]},
             }
         },
         methods: {
@@ -230,6 +229,9 @@
                 axios.get('http://127.0.0.1:5000/supplementary/'.concat(products, '/')).then(response => {
                     this.supplementary = response.data
                 })
+                // axios.get('http://127.0.0.1:5000/forecast/'.concat(products, '/')).then(response => {
+                //     this.forecast = response.data
+                // })
             },
             add_to_basket (product_object) {
                 this.basket_list = this.basket_list.concat(',', product_object.product.toString())
