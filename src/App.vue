@@ -12,6 +12,9 @@
           <b-tab-item label="Проекты товара">
               <code_projects></code_projects>
           </b-tab-item>
+          <b-tab-item label="Похожие товары">
+              <analogs></analogs>
+          </b-tab-item>
       </b-tabs>
 
   </div>
@@ -20,12 +23,14 @@
 <script>
 import complementary from './components/complementary.vue'
 import code_projects from './components/code_projects.vue'
+import analogs from './components/analogs.vue'
 
 export default {
   name: 'app',
   components: {
       complementary,
-      code_projects
+      code_projects,
+      analogs
   }
 }
 </script>
