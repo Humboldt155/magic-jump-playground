@@ -32,7 +32,7 @@
                           <tbody>
                             <tr v-for="product in cluster['products'].slice(0,max_products)">
                                 <td>
-                                    <p class="is-size-4 has-text-grey-darker">{{ product['product_name'] }}</p><br>
+                                    <p class="is-size-5 has-text-grey-darker">{{ product['product_name'] }}</p><br>
                                     <p class="is-size-6 has-text-grey">Вероятность: <strong class="is-size-6 has-text-grey">{{ Math.round(product.probability * 100000) / 1000 }}&nbsp;%</strong></p>
                                     <p class="is-size-6 has-text-grey">{{ product['product'] }}</p>
                                 </td>

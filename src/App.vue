@@ -15,6 +15,9 @@
           <b-tab-item label="Похожие товары">
               <analogs></analogs>
           </b-tab-item>
+          <b-tab-item label="Предсказание по категориям">
+              <categorical_predict></categorical_predict>
+          </b-tab-item>
       </b-tabs>
 
   </div>
@@ -24,13 +27,15 @@
 import complementary from './components/complementary.vue'
 import code_projects from './components/code_projects.vue'
 import analogs from './components/analogs.vue'
+import categorical_predict from './components/categorical_predict.vue'
 
 export default {
   name: 'app',
   components: {
       complementary,
       code_projects,
-      analogs
+      analogs,
+      categorical_predict
   }
 }
 </script>

@@ -77,7 +77,7 @@
 
 <!--------------------------Блок КОРЗИНЫ------------------------------------------>
                 <div class="box">
-                    <h1 class="title has-text-danger is-size-4">Корзина: </h1>
+                    <img src="../assets/basket.png" alt="">
                     <table class="table is-striped">
                       <thead>
                         <tr>
@@ -109,7 +109,7 @@
                 <br>
 <!--------------------------Блок ВОЗМОЖНО, ВЫ ЗАБЫЛИ КУПИТЬ-------------------------------->
                 <div class="box">
-                    <h1 class="title has-text-success is-size-4">Возможно, клиент забыл купить: </h1>
+                    <h1 class="title has-text-success is-size-4">Клиент забыл или купит в течение недели: </h1>
                     <table class="table is-striped is-bordered">
                       <thead>
                       </thead>
@@ -187,10 +187,44 @@
                     </div>
                     <br>
                 </div>
-                <div class="box">
-                    <h1 class="title has-text-success is-size-4">За чем клиент придет в следующий раз: </h1>
-                    <!--{{ forecast }}-->
-                </div>
+                <!--<div class="box">-->
+                    <!--<h1 class="title has-text-success is-size-4">За чем клиент вернется в течение месяца </h1>-->
+                    <!--<table class="table is-striped">-->
+                      <!--<thead>-->
+                        <!--<tr>-->
+                          <!--<th><abbr title="Position">Код</abbr></th>-->
+                          <!--<th><abbr title="Played">Наименование товара</abbr></th>-->
+                          <!--<th><abbr title="Played">Вероятность</abbr></th>-->
+                        <!--</tr>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                        <!--<tr v-for="product in forecast['forecast_during']">-->
+                            <!--<td>{{ product.product }}</td>-->
+                            <!--<td>{{ product.product_name }}</td>-->
+                            <!--<td><strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></td>-->
+                        <!--</tr>-->
+                      <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
+                <!--<div class="box">-->
+                    <!--<h1 class="title has-text-success is-size-4">За чем клиент вернется через месяц и более </h1>-->
+                    <!--<table class="table is-striped">-->
+                      <!--<thead>-->
+                        <!--<tr>-->
+                          <!--<th><abbr title="Position">Код</abbr></th>-->
+                          <!--<th><abbr title="Played">Наименование товара</abbr></th>-->
+                          <!--<th><abbr title="Played">Вероятность</abbr></th>-->
+                        <!--</tr>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                        <!--<tr v-for="product in forecast['forecast_after']">-->
+                            <!--<td>{{ product.product }}</td>-->
+                            <!--<td>{{ product.product_name }}</td>-->
+                            <!--<td><strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></td>-->
+                        <!--</tr>-->
+                      <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
             </div>
         </div>
         <br>
@@ -210,6 +244,7 @@
                 add_to_basket_product_name: '',
                 basket_products: [],
                 basket_list: '',
+                forecast: '',
                 main_code: '123456789',
                 main_name: 'Наименование основного товара',
                 complements: {"models": [], "product": '',  "product_name": ''},
@@ -228,6 +263,9 @@
                 })
                 axios.get('http://127.0.0.1:5000/supplementary/'.concat(products, '/')).then(response => {
                     this.supplementary = response.data
+                })
+                axios.get('http://127.0.0.1:5000/forecast/'.concat(products, '/')).then(response => {
+                    this.forecast = response.data
                 })
                 // axios.get('http://127.0.0.1:5000/forecast/'.concat(products, '/')).then(response => {
                 //     this.forecast = response.data
