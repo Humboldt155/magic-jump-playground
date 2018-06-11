@@ -18,6 +18,9 @@
           <b-tab-item label="Предсказание по категориям">
               <categorical_predict></categorical_predict>
           </b-tab-item>
+          <b-tab-item label="Кластеризация модели">
+              <model_clusters></model_clusters>
+          </b-tab-item>
       </b-tabs>
 
   </div>
@@ -28,6 +31,7 @@ import complementary from './components/complementary.vue'
 import code_projects from './components/code_projects.vue'
 import analogs from './components/analogs.vue'
 import categorical_predict from './components/categorical_predict.vue'
+import model_clusters from './components/model_clusters.vue'
 
 export default {
   name: 'app',
@@ -35,7 +39,8 @@ export default {
       complementary,
       code_projects,
       analogs,
-      categorical_predict
+      categorical_predict,
+      model_clusters
   }
 }
 </script>
