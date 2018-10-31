@@ -28,7 +28,7 @@
             <div class="column">
                 <div class="columns">
                     <div class="column is-one-fifth">
-                        <p class="has-text-primary is-size-5">С этим товаром покупают</p>
+                        <p class="has-text-primary is-size-5">Рекомендации </p>
                     </div>
                     <div class="column is-one-fifth">
                         <p class="has-text-grey is-size-5">Товарная группа</p>
@@ -44,7 +44,11 @@
 <!--------------------------Карточка товара-------------------------------->
             <div class="column is-one-third"> <!--Товар-->
                 <div class="box">
-                    <h1 class="title has-text-primary is-size-4">Карточка товара: </h1>
+                    <h1 class="title has-text-primary is-size-4">Карточка товара:  </h1>
+                    <figure class="image is-170x170">
+                        <img :src="complements.product_url"/>
+                    </figure>
+                    <!--<img :src="complements.product_url"/>-->
                     <h1 class="is-size-4">
                         {{ complements.product_name }}
                     </h1><br>
@@ -61,6 +65,7 @@
                       <thead>
                         <tr>
                           <th><abbr title="Position">Код</abbr></th>
+                          <th><abbr title="Position">Фото</abbr></th>
                           <th><abbr title="Played">Наименование товара</abbr></th>
                           <th><abbr title="Won">Схожесть, %</abbr></th>
                         </tr>
@@ -68,6 +73,10 @@
                       <tbody>
                         <tr v-for="prod in analogs.models[0]['products']">
                             <td>{{ prod.product }}</td>
+                            <td>
+                                <figure class="image is-128x128">
+                                    <img :src="prod.product_url"/>
+                                </figure></td>
                             <td>{{ prod.product_name }}</td>
                             <td>{{ Math.round(prod.probability * 100) / 100 }}</td>
                         </tr>
@@ -109,7 +118,7 @@
                 <br>
 <!--------------------------Блок ВОЗМОЖНО, ВЫ ЗАБЫЛИ КУПИТЬ-------------------------------->
                 <div class="box">
-                    <h1 class="title has-text-success is-size-4">Клиент забыл или купит в течение недели: </h1>
+                    <h1 class="title has-text-success is-size-4"> Предложить в корзине </h1>
                     <table class="table is-striped is-bordered">
                       <thead>
                       </thead>
@@ -135,28 +144,29 @@
 
 <!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->
             <div class="column">
-                <div v-for="model in models.slice(0, 5)" class="container">
+                <div v-for="model in models.slice(0, 6)" class="container">
                     <div>
-
                         <div class="columns">
-                            <div class="column is-one-fifth">
+                            <div v-for="product in model.products.slice(0, 1)" class="column is-one-fifth">
                                 <div class="box">
+                                        <figure class="image is-128x128">
+                                          <img :src="product.product_url"/>
+                                        </figure>
+                                        <p class="is-size-6 has-text-dark">{{ product.product_name }}</p>
+                                        <p class="is-size-7 has-text-grey">Вероятность:&nbsp;&nbsp;<strong>{{ Math.round(product.probability * 1000000) / 1000000 }}  %</strong></p>
+                                        <div class="is-size-7 has-text-grey">Арт: {{ product.product }}
+                                            <button class="button is-danger is-outlined is-small"
+                                                    @click="add_to_basket({
+                                                        product: product.product,
+                                                        product_name: product.product_name,
+                                                    })">
+                                                в корзину
+                                            </button>
+                                        </div>
 
-                                    <p class="is-size-6 has-text-dark">{{ model.products[0].product_name }}</p><br>
-                                    <p class="is-size-6 has-text-grey-light">Вероятность:&nbsp;&nbsp;<strong>{{ Math.round(model.products[0].probability * 1000000) / 1000000 }}  %</strong></p>
-                                    <div class="is-size-6 has-text-grey-light">Арт: {{ model.products[0].product }}
-                                        <button class="button is-danger is-outlined is-small"
-                                                @click="add_to_basket({
-                                                    product: model.products[0].product,
-                                                    product_name: model.products[0].product_name,
-                                                })">
-                                            в корзину
+                                        <button v-if="product.is_stm" class="button is-success is-small">
+                                            СТМ
                                         </button>
-                                    </div>
-
-                                    <button v-if="model.products[0].is_stm" class="button is-success is-small">
-                                        СТМ
-                                    </button>
                                 </div>
                             </div>
                             <div class="column is-one-fifth">
@@ -165,7 +175,9 @@
 <!--------------------------Блок АНАЛОГОВ КОМПЛЕМЕНТОВ-------------------------------->
                             <div v-for="product in model.products.slice(1, 7)" class="column is-one-fifth">
                                 <div class="box">
-
+                                    <figure class="image is-128x128">
+                                        <img :src="product.product_url"/>
+                                    </figure>
                                     <p class="is-size-6 has-text-grey">{{ product.product_name }}</p>
                                     <p class="is-size-7 has-text-grey">Вероятность: <strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></p>
                                     <div class="is-size-7 has-text-grey">
@@ -187,25 +199,33 @@
                     </div>
                     <br>
                 </div>
-                <!--<div class="box">-->
-                    <!--<h1 class="title has-text-success is-size-4">За чем клиент вернется в течение месяца </h1>-->
-                    <!--<table class="table is-striped">-->
-                      <!--<thead>-->
-                        <!--<tr>-->
-                          <!--<th><abbr title="Position">Код</abbr></th>-->
-                          <!--<th><abbr title="Played">Наименование товара</abbr></th>-->
-                          <!--<th><abbr title="Played">Вероятность</abbr></th>-->
-                        <!--</tr>-->
-                      <!--</thead>-->
-                      <!--<tbody>-->
-                        <!--<tr v-for="product in forecast['forecast_during']">-->
-                            <!--<td>{{ product.product }}</td>-->
-                            <!--<td>{{ product.product_name }}</td>-->
-                            <!--<td><strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></td>-->
-                        <!--</tr>-->
-                      <!--</tbody>-->
-                    <!--</table>-->
-                <!--</div>-->
+
+<!--------------------------Блок Вернется в течение 1-2 недель -------------------------------->
+                <div class="box">
+                    <h1 class="title has-text-success is-size-4">За чем клиент вернется в течение 1-2 недель </h1>
+                    <table class="table is-striped">
+                      <thead>
+                        <tr>
+                          <th><abbr title="Position">Код</abbr></th>
+                          <th><abbr title="Position">Фото</abbr></th>
+                          <th><abbr title="Played">Наименование товара</abbr></th>
+                          <th><abbr title="Played">Вероятность</abbr></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="product in forecast['forecast_during']">
+                            <td>
+                                <figure class="image is-128x128">
+                                    <img :src="product.product_url"/>
+                                </figure>
+                            </td>
+                            <td>{{ product.product }}</td>
+                            <td>{{ product.product_name }}</td>
+                            <td><strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
                 <!--<div class="box">-->
                     <!--<h1 class="title has-text-success is-size-4">За чем клиент вернется через месяц и более </h1>-->
                     <!--<table class="table is-striped">-->
@@ -247,9 +267,9 @@
                 forecast: '',
                 main_code: '123456789',
                 main_name: 'Наименование основного товара',
-                complements: {"models": [], "product": '',  "product_name": ''},
-                analogs: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}]}]},
-                supplementary: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}, {product: '', product_name: ''}]}]},
+                complements: {"models": [], "product": '',  "product_name": '', "product_url": ''},
+                analogs: {"models": [{products: [{product: '', product_name: '', product_url: ''}, {product: '', product_name: '', product_url: ''}]}]},
+                supplementary: {"models": [{products: [{product: '', product_name: '', product_url: ''}, {product: '', product_name: '', product_url: ''}, {product: '', product_name: '', product_url: ''}]}]},
                 // forecast: {"models": [{products: [{product: '', product_name: ''}, {product: '', product_name: ''}, {product: '', product_name: ''}]}]},
             }
         },

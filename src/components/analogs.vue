@@ -23,6 +23,7 @@
                       <thead>
                         <tr>
                           <th><abbr title="Position">Код</abbr></th>
+                          <th><abbr title="Position">Фото</abbr></th>
                           <th><abbr title="Played">Наименование товара</abbr></th>
                           <th><abbr title="Won">Схожесть, %</abbr></th>
                           <th><abbr title="Won">Наименование модели Адео</abbr></th>
@@ -31,6 +32,11 @@
                       <tbody>
                         <tr v-for="product in most_similar['similars']">
                             <td>{{ product.product }}</td>
+                            <td>
+                                <figure class="image is-128x128">
+                                    <img :src="product.url"/>
+                                </figure>
+                            </td>
                             <td>{{ product.product_name }}</td>
                             <td>{{ product.probability }}</td>
                             <td>{{ product.model_name }}</td>
