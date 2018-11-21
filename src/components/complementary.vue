@@ -10,11 +10,42 @@
                         <p class="control">
                             <button class="button" @click="getComplementary(selected)">применить</button>
                         </p>
-                      </b-field>
+                    </b-field>
                   </div>
                   <div class="navbar-item">
                     <button class="button is-outlined" @click="clearBasket">Очистить корзину</button>
                   </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="title has-text-primary is-size-5">Поиск по сайту</div>
+                    </div>
+                    <div class="navbar-item">
+                        <b-field>
+                            <b-autocomplete
+                                style="width: 600px"
+                                v-model="name"
+                                :data="data_search"
+                                placeholder="найти"
+                                field="product_name"
+                                @select="option => select = option">
+                                <template slot-scope="props">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img width="32" :src="props.option.product_url">
+                                        </div>
+                                        <div class="media-content">
+                                            {{ props.option.product_name }}
+                                            <br>
+                                            <small>
+                                                артикул: <b>{{ props.option.product }}</b>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </template>
+                            </b-autocomplete>
+                        </b-field>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -40,6 +71,7 @@
             </div>
         </div>
         <div class="columns">
+            <!--{{ data_search[0].product_name }}-->
 
 <!--------------------------Карточка товара-------------------------------->
             <div class="column is-one-third"> <!--Товар-->
@@ -71,7 +103,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="prod in analogs.models[0]['products']">
+                        <tr v-for="prod in analogs['products']">
                             <td>{{ prod.product }}</td>
                             <td>
                                 <figure class="image is-128x128">
@@ -113,33 +145,6 @@
                 </div>
                 <br>
                 <br>
-                <br>
-                <br>
-                <br>
-<!--------------------------Блок ВОЗМОЖНО, ВЫ ЗАБЫЛИ КУПИТЬ-------------------------------->
-                <div class="box">
-                    <h1 class="title has-text-success is-size-4"> Предложить в корзине </h1>
-                    <table class="table is-striped is-bordered">
-                      <thead>
-                      </thead>
-                      <tbody>
-                        <tr v-for="model in supplementary.models">
-                            <td v-for="product in model.products.slice(0, 2)">
-                                <p class="is-size-5 has-text-grey">{{ product.product_name }}</p><br>
-                                <p class="is-size-6 has-text-grey">Вероятность: <strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></p>
-                                <br>
-                                    <div class="is-size-7 has-text-grey">
-                                        Арт: {{ product.product }}
-                                    </div>
-                                    <button v-if="model.products[0].is_stm === 1" class="button is-success is-small">
-                                        СТМ
-                                    </button>
-                            </td>
-                            <br>
-                        </tr>
-                      </tbody>
-                    </table>
-                </div>
             </div>
 
 <!--------------------------Блок КОМПЛЕМЕНТОВ-------------------------------->
@@ -199,52 +204,6 @@
                     </div>
                     <br>
                 </div>
-
-<!--------------------------Блок Вернется в течение 1-2 недель -------------------------------->
-                <div class="box">
-                    <h1 class="title has-text-success is-size-4">За чем клиент вернется в течение 1-2 недель </h1>
-                    <table class="table is-striped">
-                      <thead>
-                        <tr>
-                          <th><abbr title="Position">Код</abbr></th>
-                          <th><abbr title="Position">Фото</abbr></th>
-                          <th><abbr title="Played">Наименование товара</abbr></th>
-                          <th><abbr title="Played">Вероятность</abbr></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="product in forecast['forecast_during']">
-                            <td>
-                                <figure class="image is-128x128">
-                                    <img :src="product.product_url"/>
-                                </figure>
-                            </td>
-                            <td>{{ product.product }}</td>
-                            <td>{{ product.product_name }}</td>
-                            <td><strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                </div>
-                <!--<div class="box">-->
-                    <!--<h1 class="title has-text-success is-size-4">За чем клиент вернется через месяц и более </h1>-->
-                    <!--<table class="table is-striped">-->
-                      <!--<thead>-->
-                        <!--<tr>-->
-                          <!--<th><abbr title="Position">Код</abbr></th>-->
-                          <!--<th><abbr title="Played">Наименование товара</abbr></th>-->
-                          <!--<th><abbr title="Played">Вероятность</abbr></th>-->
-                        <!--</tr>-->
-                      <!--</thead>-->
-                      <!--<tbody>-->
-                        <!--<tr v-for="product in forecast['forecast_after']">-->
-                            <!--<td>{{ product.product }}</td>-->
-                            <!--<td>{{ product.product_name }}</td>-->
-                            <!--<td><strong>{{ Math.round(product.probability * 1000000) / 1000000 }}&nbsp;%</strong></td>-->
-                        <!--</tr>-->
-                      <!--</tbody>-->
-                    <!--</table>-->
-                <!--</div>-->
             </div>
         </div>
         <br>
@@ -260,6 +219,10 @@
         data () {
             return {
                 selected: '18745342',
+                data_search: [],
+                name: '',
+                select: null,
+                isFetching: false,
                 add_to_basket_product: '',
                 add_to_basket_product_name: '',
                 basket_products: [],
@@ -274,22 +237,20 @@
             }
         },
         methods: {
+            getSearchData () {
+                this.isFetching = true
+
+            },
             getComplementary (products) {
                 axios.get('http://127.0.0.1:5000/complementary/'.concat(products, this.basket_list, '/')).then(response => {
                     this.complements = response.data
                 })
                 axios.get('http://127.0.0.1:5000/analogs/'.concat(this.selected, '/')).then(response => {
-                    this.analogs = response.data
+                    this.analogs['products'] = response.data
                 })
-                axios.get('http://127.0.0.1:5000/supplementary/'.concat(products, '/')).then(response => {
-                    this.supplementary = response.data
+                axios.get('http://127.0.0.1:5000/search/'.concat(products, this.basket_list, '/')).then(response_search => {
+                    this.data_search = response_search.data
                 })
-                axios.get('http://127.0.0.1:5000/forecast/'.concat(products, '/')).then(response => {
-                    this.forecast = response.data
-                })
-                // axios.get('http://127.0.0.1:5000/forecast/'.concat(products, '/')).then(response => {
-                //     this.forecast = response.data
-                // })
             },
             add_to_basket (product_object) {
                 this.basket_list = this.basket_list.concat(',', product_object.product.toString())
